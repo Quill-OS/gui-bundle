@@ -24,7 +24,9 @@ mksquashfs "${GITDIR}/content/inkbox" "./inkbox.isa" "${MKSQUASHFS_ARGS[@]}"
 mksquashfs "${GITDIR}/content/qt" "./qt.isa" "${MKSQUASHFS_ARGS[@]}"
 mksquashfs "${GITDIR}/content/python" "./python.isa" "${MKSQUASHFS_ARGS[@]}"
 for f in *.isa; do
-	openssl dgst -sha256 -sign "${1}" -out "${f}.dgst" "${f}"
+	if [ "${f}" != "*" ]; then
+		openssl dgst -sha256 -sign "${1}" -out "${f}.dgst" "${f}"
+	fi
 done
 sync
 
