@@ -17,6 +17,7 @@ cp "${3}/build_lockscreen/lockscreen" "./lockscreen-bin"
 popd
 
 # Squashing packages
+rm -rf "out/"
 mkdir -p "out/update-bundle" && pushd "out/update-bundle"
 echo "${2}" > "./version"
 cp "${GITDIR}/content/license" "./license"
