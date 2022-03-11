@@ -47,6 +47,7 @@ mkdir -p .config/15-sleep_timeout
 mkdir -p .config/16-global_reading_settings
 mkdir -p .config/17-wifi_connection_information
 mkdir -p .config/18-encrypted_storage
+mkdir -p .config/19-timezone
 
 rm /var/run/brightness 2>/dev/null
 if [ "${DEVICE}" != "n236" ] && [ "${DEVICE}" != "n437" ]; then
