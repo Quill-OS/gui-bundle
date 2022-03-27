@@ -3,7 +3,7 @@
 DEVICE="$(cat /opt/inkbox_device)"
 
 if [ "${DEVICE}" == "n705" ] || [ "${DEVICE}" == "n905" ]; then
-	GRIDSIZE=75
+	GRIDSIZE=70
 	STONERADIUS=28
 elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ] || [ "${DEVICE}" == "n306" ] || [ "${DEVICE}" == "emu" ]; then
 	GRIDSIZE=85
@@ -12,7 +12,7 @@ elif [ "${DEVICE}" == "n437" ]; then
 	GRIDSIZE=128
 	STONERADIUS=55
 else
-	GRIDSIZE=75
+	GRIDSIZE=70
 	STONERADIUS=28
 fi
 
