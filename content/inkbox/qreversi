@@ -1,3 +1,19 @@
 #!/bin/sh
 
-LD_LIBRARY_PATH='/mnt/onboard/.adds/qt-linux-5.15.2-kobo/lib' LD_PRELOAD=/lib/invert_screen.so /mnt/onboard/.adds/inkbox/qreversi-bin
+DEVICE="$(cat /opt/inkbox_device)"
+
+if [ "${DEVICE}" == "n705" ] || [ "${DEVICE}" == "n905" ]; then
+	GRIDSIZE=75
+	STONERADIUS=28
+elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ] || [ "${DEVICE}" == "n306" ] || [ "${DEVICE}" == "emu" ]; then
+	GRIDSIZE=85
+	STONERADIUS=38
+elif [ "${DEVICE}" == "n437" ]; then
+	GRIDSIZE=128
+	STONERADIUS=55
+else
+	GRIDSIZE=75
+	STONERADIUS=28
+fi
+
+LD_LIBRARY_PATH='/mnt/onboard/.adds/qt-linux-5.15.2-kobo/lib' LD_PRELOAD=/lib/invert_screen.so GRIDSIZE=${GRIDSIZE} STONERADIUS=${STONERADIUS} /mnt/onboard/.adds/inkbox/qreversi-bin
