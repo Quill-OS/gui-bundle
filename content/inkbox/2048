@@ -1,0 +1,13 @@
+#!/bin/sh
+
+DEVICE="$(cat /opt/inkbox_device)"
+
+if [ "${DEVICE}" == "n705" ]; then
+	OLD_DPI=${QT_FONT_DPI}
+	QT_FONT_DPI=170
+fi
+
+LD_LIBRARY_PATH='/mnt/onboard/.adds/qt-linux-5.15.2-kobo/lib' LD_PRELOAD=/lib/invert_screen.so /mnt/onboard/.adds/inkbox/2048-bin
+
+QT_FONT_DPI=${OLD_DPI}
+LD_LIBRARY_PATH='/mnt/onboard/.adds/qt-linux-5.15.2-kobo/lib' /mnt/onboard/.adds/inkbox/inkbox
