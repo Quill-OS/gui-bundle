@@ -1,3 +1,6 @@
 #!/bin/sh
 
-LD_PRELOAD=/lib/invert_screen.so /mnt/onboard/.adds/inkbox/inkbox-bin
+while true; do
+	LD_PRELOAD=/lib/invert_screen.so /mnt/onboard/.adds/inkbox/inkbox-bin
+	[ ${?} == 0 ] && break || (echo "alert_splash_no_flag" > /external_root/run/initrd-fifo && sleep 8)
+done
