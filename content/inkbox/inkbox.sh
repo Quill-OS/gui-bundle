@@ -13,8 +13,10 @@ LOCKSCREEN=$(cat .config/12-lockscreen/config 2>/dev/null)
 
 if [ "${GENUINE_OS}" == "true" ]; then
 	FIRST_BOOT=$(cat /external_root/boot/flags/FIRST_BOOT 2>/dev/null)
+	GUI_DEBUG=$(cat /external_root/boot/flags/GUI_DEBUG 2>/dev/null)
 else
-	FIRST_BOOT=$(cat .flags/FIRST_BOOT)
+	FIRST_BOOT=$(cat .flags/FIRST_BOOT 2>/dev/null)
+	GUI_DEBUG=$(cat .flags/GUI_DEBUG 2>/dev/null)
 fi
 
 MOUNT_RULE=$(cat /inkbox/remount 2>/dev/null)
@@ -24,6 +26,12 @@ if [ "${MOUNT_RULE}" != "false" ]; then
         mount -t tmpfs tmpfs /inkbox
 else
         echo "inkbox.sh: remount flag set to 'false', not remounting tmpfs..."
+fi
+
+if [ "${GUI_DEBUG}" == "true" ]; then
+	DEBUG=1
+else
+	DEBUG=0
 fi
 
 mkdir -p .flags 2>/dev/null
@@ -79,10 +87,10 @@ if [ "${DPI}" != "false" ]; then
 				if [ "${LOCKSCREEN}" == "true" ]; then
 					QT_FONT_DPI=${DPI} ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./lockscreen
 				else
-					QT_FONT_DPI=${DPI} ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./inkbox
+					QT_FONT_DPI=${DPI} ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" DEBUG=${DEBUG} ./inkbox
 				fi
 			else
-				QT_FONT_DPI=${DPI} ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./inkbox
+				QT_FONT_DPI=${DPI} ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" DEBUG=${DEBUG} ./inkbox
 			fi
 		fi
         fi
@@ -98,10 +106,10 @@ else
 				if [ "${LOCKSCREEN}" == "true" ]; then
 					QT_FONT_DPI=0 ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./lockscreen
 				else
-					QT_FONT_DPI=0 ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./inkbox
+					QT_FONT_DPI=0 ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" DEBUG=${DEBUG} ./inkbox
 				fi
 			else
-				QT_FONT_DPI=0 ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./inkbox
+				QT_FONT_DPI=0 ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" DEBUG=${DEBUG} ./inkbox
 			fi
                 fi
         fi
