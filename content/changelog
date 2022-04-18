@@ -1,0 +1,17 @@
+- 'Online library' feature for Wi-Fi-able devices
+- Picture display support
+- Support for landscape PDFs
+- Wi-Fi devices: New "Online library" feature (fetches books from Project
+Gutenberg)
+- Kobo Aura SE (N236), Kobo Glo HD (N437) and Kobo Nia (N306) support
+- UI redesign
+- Boot progress bar
+- Timezone support (Settings -> Page 2 -> Timezone)
+- System report generation (Settings -> Page 2 -> Generate system report)
+- Improved USB Mass Storage mode
+- New font (Univers/u001)
+- Special characters in virtual keyboard
+- Speed optimizations in Reader framework (among others, page turning speed)
+- Wi-Fi framework improvements
+- New apps: Reversi and 2048
+- LOTS of various bugfixes
