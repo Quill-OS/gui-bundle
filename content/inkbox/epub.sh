@@ -8,7 +8,7 @@
 # 5 - Get total pages number
 
 if [ -z "${5}" ]; then
-	cat /run/page | tr -d '\n\t' | ./grep -o -P "<div id=\"page${4}\">.*?</div>" | busybox-initrd sed 's/<h3>/<p>/g; s/<\/h3>/<\/p>/g' > /inkbox/book/page
+	cat /run/page | tr -d '\n\t' | system/bin/grep -o -P "<div id=\"page${4}\">.*?</div>" | busybox-initrd sed 's/<h3>/<p>/g; s/<\/h3>/<\/p>/g' > /inkbox/book/page
 else
 	# N is the last page number
 	/usr/local/bin/mutool convert -X -F xhtml -S ${1} -W ${2} -H ${3} -o /run/page /run/book.epub 1-N
