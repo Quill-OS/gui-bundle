@@ -8,10 +8,10 @@ calculate() {
 cd "$(dirname ""${0}"")"
 
 #### EPUB ####
-json="$(EXTRACT_COVER=1 LD_LIBRARY_PATH='/lib:system/lib' system/bin/epubtool ${@})"
+json=$(EXTRACT_COVER=1 LD_LIBRARY_PATH='/lib:system/lib' system/bin/epubtool "${@}")
 
 eval $(system/lib/ld-musl-armhf.so.1 /external_root/opt/bin/fbink/fbink -e)
-coverSize="$(calculate ${viewWidth}/8.5)x$(calculate ${viewHeight}/8.5)"
+coverSize="$(calculate ${viewWidth}/${icon_width_divider})x$(calculate ${viewHeight}/${icon_height_divider})"
 
 #### ePUB thumbnails ####
 cd /mnt/onboard/onboard/.thumbnails
@@ -34,7 +34,7 @@ for pdf in $(find /mnt/onboard/onboard -path /mnt/onboard/onboard/.apps -prune -
 	cover_raw_mutool="${pdf_cksum}"
 	cover_raw="/mnt/onboard/onboard/.thumbnails/${pdf_cksum}1"
 	if [ ! -f "/mnt/onboard/onboard/.thumbnails/${pdf_cksum}" ]; then
-		(cd /mnt/onboard/onboard/.thumbnails && mutool convert -F png -O width=$(calculate ${viewWidth}/8.5),height=$(calculate ${viewHeight}/8.5) -o "${cover_raw_mutool}" "${pdf}" 1)
+		cd /mnt/onboard/onboard/.thumbnails && mutool convert -F png -O width=$(calculate ${viewWidth}/${icon_width_divider}),height=$(calculate ${viewHeight}/${icon_height_divider}) -o "${cover_raw_mutool}" "${pdf}" 1 && cd -
 		cover=$(ls ${cover_raw})
 		cover="${cover%?}"
 		mv "${cover_raw}" "${cover}"
@@ -56,4 +56,4 @@ done
 unset IFS; set +f
 
 #### JSON output ####
-echo "${json}]}"
+echo "${json}]}" > /inkbox/LocalLibrary.db.raw
