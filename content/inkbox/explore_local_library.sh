@@ -28,7 +28,7 @@ book_id=$((last_book_id+1))
 
 #### PDF ####
 IFS=$'\n'; set -f
-for pdf in $(find /mnt/onboard/onboard -path /mnt/onboard/onboard/.apps -prune -o -name "*.pdf" -or -name "*.PDF"); do
+for pdf in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.thumbnails" \) -prune -o -type f -name "*.pdf" -or -name "*.PDF"); do
 	[ -d "${pdf}" ] && continue
 	pdf_cksum="$(sha256sum ""${pdf}"" | awk '{ print $1 }')"
 	cover_raw_mutool="${pdf_cksum}"
@@ -41,16 +41,26 @@ for pdf in $(find /mnt/onboard/onboard -path /mnt/onboard/onboard/.apps -prune -
 	else
 		cover="/mnt/onboard/onboard/.thumbnails/${pdf_cksum}"
 	fi
-	json="${json},{\"BookID\": \"${book_id}\",\"BookPath\": \"${pdf}\",\"CoverPath\": \"/mnt/onboard/onboard/.thumbnails/${pdf_cksum}\",\"Title\": \"$(basename ""${pdf}"")\"}"
+	if [ ${book_id} == 1 ]; then
+		char="{"
+	else
+		char=",{"
+	fi
+	json="${json}${char}\"BookID\": \"${book_id}\",\"BookPath\": \"${pdf}\",\"CoverPath\": \"/mnt/onboard/onboard/.thumbnails/${pdf_cksum}\",\"Title\": \"$(basename ""${pdf}"")\"}"
 	book_id=$((book_id+1))
 done
 
 #### Pictures ####
-for picture in $(find /mnt/onboard/onboard -path /mnt/onboard/onboard/.apps -prune -o -name "*.png" -or -name "*.PNG" -or -name "*.jpg" -or -name "*.JPG" -or -name "*.jpeg" -or -name "*.JPEG" -or -name "*.bmp" -or -name "*.BMP" -or -name "*.tif" -or -name "*.TIF" -or -name "*.tiff" -or -name "*.TIFF"); do
+for picture in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.thumbnails" \) -prune -o -name "*.png" -or -name "*.PNG" -or -name "*.jpg" -or -name "*.JPG" -or -name "*.jpeg" -or -name "*.JPEG" -or -name "*.bmp" -or -name "*.BMP" -or -name "*.tif" -or -name "*.TIF" -or -name "*.tiff" -or -name "*.TIFF"); do
 	[ -d "${picture}" ] && continue
 	cover="$(sha256sum ""${picture}"" | awk '{ print $1 }')"
 	[ ! -f "/mnt/onboard/onboard/.thumbnails/${cover}" ] && chroot /external_root /usr/bin/convert "$(echo "${picture}" | sed 's/\/mnt\/onboard\/onboard/\/data\/onboard/g')" -resize "${coverSize}" "/data/onboard/.thumbnails/${cover}"
-	json="${json},{"\"BookID\"": \"${book_id}\",\"BookPath\": \"${picture}\",\"CoverPath\": \"/mnt/onboard/onboard/.thumbnails/${cover}\",\"Title\": \"$(basename ""${picture}"")\"}"
+	if [ ${book_id} == 1 ]; then
+		char="{"
+	else
+		char=",{"
+	fi
+	json="${json}${char}"\"BookID\"": \"${book_id}\",\"BookPath\": \"${picture}\",\"CoverPath\": \"/mnt/onboard/onboard/.thumbnails/${cover}\",\"Title\": \"$(basename ""${picture}"")\"}"
 	book_id=$((book_id+1))
 done
 unset IFS; set +f
