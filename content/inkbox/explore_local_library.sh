@@ -1,5 +1,7 @@
 #!/bin/busybox-initrd sh
 
+DEVICE="$(cat /opt/inkbox_device)"
+
 calculate() {
 	result=$(awk "BEGIN { print "$*" }")
 	printf "%.0f\n" ${result}
@@ -10,7 +12,13 @@ cd "$(dirname ""${0}"")"
 #### EPUB ####
 json=$(EXTRACT_COVER=1 LD_LIBRARY_PATH='/lib:system/lib' system/bin/epubtool "${@}")
 
-eval $(system/lib/ld-musl-armhf.so.1 /external_root/opt/bin/fbink/fbink -e)
+# Evaluate constants for screen-size-based icon scaling
+if [ "${DEVICE}" == "kt" ]; then
+	eval $(/external_root/opt/bin/fbink/fbink -e)
+else
+	eval $(system/lib/ld-musl-armhf.so.1 /external_root/opt/bin/fbink/fbink -e)
+fi
+
 coverSize="$(calculate ${viewWidth}/${icon_width_divider})x$(calculate ${viewHeight}/${icon_height_divider})"
 
 #### ePUB thumbnails ####
@@ -28,7 +36,7 @@ book_id=$((last_book_id+1))
 
 #### PDF ####
 IFS=$'\n'; set -f
-for pdf in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.thumbnails" \) -prune -o -type f -name "*.pdf" -or -name "*.PDF"); do
+for pdf in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.thumbnails" \) -prune -o -name "*.pdf" -or -name "*.PDF"); do
 	[ -d "${pdf}" ] && continue
 	pdf_cksum="$(sha256sum ""${pdf}"" | awk '{ print $1 }')"
 	cover_raw_mutool="${pdf_cksum}"
