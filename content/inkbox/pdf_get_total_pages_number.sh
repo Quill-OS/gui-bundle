@@ -2,4 +2,4 @@
 
 [ -z "${1}" ] && echo "'filename' argument needed" && exit 1
 
-strings < "${1}" | sed -n 's|.*/Count -\{0,1\}\([0-9]\{1,\}\).*|\1|p' | sort -rn | head -n 1 > /run/pdf_total_pages_number
+/usr/local/bin/mutool info -M "${1}" | grep "Pages: " | awk '{ print $2 }' > /run/pdf_total_pages_number
