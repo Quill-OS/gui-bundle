@@ -36,6 +36,7 @@ fi
 
 mkdir -p .flags 2>/dev/null
 mkdir -p /inkbox
+mkdir -p /mnt/onboard/onboard/.database
 mkdir -p .config/00-kobox
 mkdir -p .config/01-demo
 mkdir -p .config/02-clock
