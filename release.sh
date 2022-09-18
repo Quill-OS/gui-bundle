@@ -21,7 +21,6 @@ cp "${GITDIR}/content/license" "./license"
 cp "${GITDIR}/content/changelog" "./changelog"
 mksquashfs "${GITDIR}/content/inkbox" "./inkbox.isa" "${MKSQUASHFS_ARGS[@]}"
 mksquashfs "${GITDIR}/content/qt" "./qt.isa" "${MKSQUASHFS_ARGS[@]}"
-mksquashfs "${GITDIR}/content/python" "./python.isa" "${MKSQUASHFS_ARGS[@]}"
 for f in *.isa; do
 	if [ "${f}" != "*" ]; then
 		openssl dgst -sha256 -sign "${GITDIR}/${1}" -out "${f}.dgst" "${f}"
