@@ -231,17 +231,17 @@ QScrollBar {
 }
 
 QScrollBar:vertical {
-	width: 35px
+	width: 45px
 }
 
 QScrollBar:horizontal {
-	height: 35px
+	height: 45px
 }
 
 QScrollBar::handle {
 	background: black;
-	min-width: 25px;
-	min-height: 25px;
+	min-width: 45px;
+	min-height: 45px;
 	border: 5px;
 }
 
