@@ -1,0 +1,31 @@
+#!/bin/sh
+
+calculate() {
+        result=$(awk "BEGIN { print "$*" }")
+        printf "%.0f\n" ${result}
+}
+
+DEVICE="$(cat /opt/inkbox_device)"
+STYLESHEET_PATH="/mnt/onboard/.adds/inkbox/system/share/stylesheets/qalculate/"
+
+if [ "${DEVICE}" == "n705" ]; then
+	FACTOR=0.55
+	STYLESHEET="${STYLESHEET_PATH}600x800.qss"
+elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ] || [ "${DEVICE}" == "n306" ]; then
+	FACTOR=0.75
+	STYLESHEET="${STYLESHEET_PATH}768x1024.qss"
+elif [ "${DEVICE}" == "n437" ]; then
+	FACTOR=0.77
+	STYLESHEET="${STYLESHEET_PATH}1072x1448.qss"
+elif [ "${DEVICE}" == "n873" ]; then
+	FACTOR=0.79
+	STYLESHEET="${STYLESHEET_PATH}1264x1680.qss"
+else
+	# Kobo Touch B, C and Kindle Touch
+	FACTOR=0.65
+	STYLESHEET="${STYLESHEET_PATH}600x800.qss"
+fi
+
+QT_FONT_DPI="$(calculate $(cat /mnt/onboard/.adds/inkbox/.config/09-dpi/config 2>/dev/null)*${FACTOR})" LD_LIBRARY_PATH='/mnt/onboard/.adds/qt-linux-5.15.2-kobo/lib:/mnt/onboard/.adds/inkbox/system/lib' LD_PRELOAD=/lib/invert_screen.so /mnt/onboard/.adds/inkbox/qalculate-bin -stylesheet "${STYLESHEET}" -w "/mnt/onboard/.adds/inkbox/system/share/profiles/qalculate/default.ini"
+
+LD_LIBRARY_PATH='/mnt/onboard/.adds/qt-linux-5.15.2-kobo/lib' QT_FONT_DPI="$(cat '/mnt/onboard/.adds/inkbox/.config/09-dpi/config' 2>/dev/null)" /mnt/onboard/.adds/inkbox/inkbox
