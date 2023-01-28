@@ -73,10 +73,14 @@ if [ "${DPI}" != "false" ]; then
         if [ "${DPI}" == "" ]; then
 		if [ "${DEVICE}" == "n705" ]; then
 	                echo "187" > .config/09-dpi/config
-		elif [ "${DEVICE}" == "n905" ]; then
+		elif [ "${DEVICE}" == "n905" ] || [ "${DEVICE}" == "kt" ]; then
 			echo "160" > .config/09-dpi/config
-		elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ]; then
+		elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ] || [ "${DEVICE}" == "n306" ]; then
 			echo "195" > .config/09-dpi/config
+		elif [ "${DEVICE}" == "n437" ]; then
+			echo "275" > .config/09-dpi/config
+		elif [ "${DEVICE}" == "n873" ]; then
+			echo "285" > .config/09-dpi/config
 		else
 			echo "187" > .config/09-dpi/config
 		fi
