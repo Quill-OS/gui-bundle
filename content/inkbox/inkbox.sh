@@ -1,9 +1,8 @@
 #!/bin/sh
 
+# Fossil
 killall -q nickel sickel hindenburg 2>/dev/null
 cd /mnt/onboard/.adds/inkbox
-
-PATH="${PATH}:/mnt/onboard/.adds/Python-3.9.2/"
 
 DPI=$(cat .config/09-dpi/config 2>/dev/null)
 GENUINE_OS=$(cat /opt/inkbox_genuine 2>/dev/null)
@@ -59,6 +58,9 @@ mkdir -p .config/18-encrypted_storage
 mkdir -p .config/19-timezone
 mkdir -p .config/20-sleep_daemon
 mkdir -p .config/21-local_library
+mkdir -p .config/22-usb
+mkdir -p .config/23-updates
+mkdir -p .config/e-2-audio
 
 rm /var/run/brightness 2>/dev/null
 if [ "${DEVICE}" != "n236" ] && [ "${DEVICE}" != "n437" ]; then
@@ -71,10 +73,14 @@ if [ "${DPI}" != "false" ]; then
         if [ "${DPI}" == "" ]; then
 		if [ "${DEVICE}" == "n705" ]; then
 	                echo "187" > .config/09-dpi/config
-		elif [ "${DEVICE}" == "n905" ]; then
+		elif [ "${DEVICE}" == "n905" ] || [ "${DEVICE}" == "kt" ]; then
 			echo "160" > .config/09-dpi/config
-		elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ]; then
+		elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ] || [ "${DEVICE}" == "n306" ]; then
 			echo "195" > .config/09-dpi/config
+		elif [ "${DEVICE}" == "n437" ]; then
+			echo "275" > .config/09-dpi/config
+		elif [ "${DEVICE}" == "n873" ]; then
+			echo "285" > .config/09-dpi/config
 		else
 			echo "187" > .config/09-dpi/config
 		fi
@@ -88,7 +94,7 @@ if [ "${DPI}" != "false" ]; then
 			if [ "${FIRST_LAUNCH_SINCE_BOOT}" == "true" ]; then
 				echo "false" > /tmp/first_launch_since_boot
 				if [ "${LOCKSCREEN}" == "true" ]; then
-					QT_FONT_DPI=${DPI} ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./lockscreen
+					INITIAL_LAUNCH=1 QT_FONT_DPI=${DPI} ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./lockscreen
 				else
 					QT_FONT_DPI=${DPI} ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" DEBUG=${DEBUG} ./inkbox
 				fi
@@ -107,7 +113,7 @@ else
 			if [ "${FIRST_LAUNCH_SINCE_BOOT}" == "true" ]; then
 				echo "false" > /tmp/first_launch_since_boot
 				if [ "${LOCKSCREEN}" == "true" ]; then
-					QT_FONT_DPI=0 ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./lockscreen
+					INITIAL_LAUNCH=1 QT_FONT_DPI=0 ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" ./lockscreen
 				else
 					QT_FONT_DPI=0 ADDSPATH="/mnt/onboard/.adds/" QTPATH="${ADDSPATH}/qt-linux-5.15.2-kobo" LD_LIBRARY_PATH="${QTPATH}lib:lib:" DEBUG=${DEBUG} ./inkbox
 				fi
