@@ -17,3 +17,6 @@ if [ "${DEVICE}" != "n236" ] && [ "${DEVICE}" != "n437" ]; then
 else
 	ln -s /sys/class/backlight/mxc_msp430_fl.0/brightness /var/run/brightness 2>/dev/null
 fi
+
+# For udev support
+ln -s /external_root/run/udev/ /run/udev

@@ -2,3 +2,5 @@ content/inkbox/inkbox-bin
 content/inkbox/lockscreen-bin
 content/inkbox/oobe-inkbox-bin
 out/
+build/
+*.pem
