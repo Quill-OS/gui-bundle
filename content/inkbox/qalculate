@@ -11,12 +11,15 @@ STYLESHEET_PATH="/mnt/onboard/.adds/inkbox/system/share/stylesheets/qalculate/"
 if [ "${DEVICE}" == "n705" ]; then
 	FACTOR=0.55
 	STYLESHEET="${STYLESHEET_PATH}600x800.qss"
-elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ] || [ "${DEVICE}" == "n306" ]; then
+elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ]; then
 	FACTOR=0.75
 	STYLESHEET="${STYLESHEET_PATH}768x1024.qss"
 elif [ "${DEVICE}" == "n437" ]; then
 	FACTOR=0.77
 	STYLESHEET="${STYLESHEET_PATH}1072x1448.qss"
+elif [ "${DEVICE}" == "n306" ]; then
+	FACTOR=0.69
+	STYLESHEET="${STYLESHEET_PATH}768x1024.qss"
 elif [ "${DEVICE}" == "n873" ]; then
 	FACTOR=0.79
 	STYLESHEET="${STYLESHEET_PATH}1264x1680.qss"
