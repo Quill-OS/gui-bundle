@@ -1,3 +1,5 @@
 #!/bin/sh
 
-LD_PRELOAD=/lib/invert_screen.so /mnt/onboard/.adds/inkbox/oobe-inkbox-bin
+ADDSPATH="/mnt/onboard/.adds/"
+QTPATH="${ADDSPATH}qt-linux-5.15.2-kobo/"
+LD_PRELOAD=/lib/invert_screen.so LD_LIBRARY_PATH="${QTPATH}lib:/lib" /mnt/onboard/.adds/inkbox/oobe-inkbox-bin

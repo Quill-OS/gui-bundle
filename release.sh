@@ -9,12 +9,22 @@ MKSQUASHFS_ARGS=('-b' '1048576' '-comp' 'xz' '-Xdict-size' '100%' '-always-use-f
 
 cd "${GITDIR}"
 
+# Avoid "Permission denied" errors
+if [[ $(id -u) -eq 0 ]]; then
+    echo "Don't run as root, otherwise \"Permission denied\" errors could happen in InkBox" && exit 1
+fi
+# To be sure all files are good
+sudo chown -R "${USER}":"${USER}" *
+
 # Copying compiled binaries
-pushd "content/inkbox"
+cd "content/inkbox"
 cp "${3}/build_inkbox/inkbox" "./inkbox-bin"
 cp "${3}/build_oobe-inkbox/oobe-inkbox" "./oobe-inkbox-bin"
 cp "${3}/build_lockscreen/lockscreen" "./lockscreen-bin"
-popd
+chmod +x "./inkbox-bin"
+chmod +x "./oobe-inkbox-bin"
+chmod +x "./lockscreen-bin"
+cd "${GITDIR}"
 
 # Squashing packages
 rm -rf "out/"
