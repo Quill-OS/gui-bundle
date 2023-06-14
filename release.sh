@@ -22,8 +22,8 @@ mkdir -p "out/update-bundle" && pushd "out/update-bundle"
 echo "${2}" > "./version"
 cp "${GITDIR}/content/license" "./license"
 cp "${GITDIR}/content/changelog" "./changelog"
-mksquashfs "${GITDIR}/content/inkbox" "./inkbox.isa" "${MKSQUASHFS_ARGS[@]}"
-mksquashfs "${GITDIR}/content/qt" "./qt.isa" "${MKSQUASHFS_ARGS[@]}"
+mksquashfs "${GITDIR}/content/inkbox" "./inkbox.isa" "${MKSQUASHFS_ARGS[@]}" -all-root
+mksquashfs "${GITDIR}/content/qt" "./qt.isa" "${MKSQUASHFS_ARGS[@]}" -all-root
 for f in *.isa; do
 	if [ "${f}" != "*" ]; then
 		openssl dgst -sha256 -sign "${1}" -out "${f}.dgst" "${f}"
@@ -32,7 +32,7 @@ done
 sync
 
 # Creating final GUI bundle
-mksquashfs "${GITDIR}/out/update-bundle" "${GITDIR}/out/update.isa" "${MKSQUASHFS_ARGS[@]}"
+mksquashfs "${GITDIR}/out/update-bundle" "${GITDIR}/out/update.isa" "${MKSQUASHFS_ARGS[@]}" -all-root
 sync
 
 exit 0

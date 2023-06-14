@@ -25,7 +25,7 @@ coverSize="$(calculate ${viewWidth}/${icon_width_divider})x$(calculate ${viewHei
 cd /mnt/onboard/onboard/.thumbnails
 for cover in *; do
 	if [ "${cover}" != "*" ]; then
-		(echo "/mnt/onboard/onboard/.thumbnails/${cover}" | tail -c 3 | grep -q ".t") && chroot /external_root /usr/bin/convert "/data/onboard/.thumbnails/${cover}" -resize "${coverSize}" "/data/onboard/.thumbnails/${cover::-2}" && rm -f "/mnt/onboard/onboard/.thumbnails/${cover}"
+		chroot /external_root /usr/bin/convert "/data/onboard/.thumbnails/${cover}" -resize "${coverSize}" "/data/onboard/.thumbnails/${cover}"
 	fi
 done
 cd - &>/dev/null
