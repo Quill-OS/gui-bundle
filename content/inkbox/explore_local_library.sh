@@ -25,7 +25,7 @@ coverSize="$(calculate ${viewWidth}/${icon_width_divider})!x$(calculate ${viewHe
 cd /mnt/onboard/onboard/.thumbnails
 for cover in *; do
 	if [ "${cover}" != "*" ]; then
-		chroot /external_root /usr/bin/convert "/data/onboard/.thumbnails/${cover}" -resize "${coverSize}" "/data/onboard/.thumbnails/${cover}"
+		chroot /external_root /usr/bin/magick mogrify "/data/onboard/.thumbnails/${cover}" -resize "${coverSize}"
 	fi
 done
 cd - &>/dev/null
