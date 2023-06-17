@@ -19,7 +19,7 @@ else
 	eval $(system/lib/ld-musl-armhf.so.1 /external_root/opt/bin/fbink/fbink -e)
 fi
 
-coverSize="$(calculate ${viewWidth}/${icon_width_divider})x$(calculate ${viewHeight}/${icon_height_divider})!"
+coverSize="$(calculate ${viewWidth}/${icon_width_divider})!x$(calculate ${viewHeight}/${icon_height_divider})!"
 
 #### ePUB thumbnails ####
 cd /mnt/onboard/onboard/.thumbnails
