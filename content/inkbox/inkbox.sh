@@ -90,15 +90,15 @@ if [ "${DPI}" != "false" ]; then
 		fi
                 DPI=$(cat .config/09-dpi/config 2>/dev/null)
         elif [ "${FIRST_BOOT}" == "true" ]; then
-                QT_FONT_DPI=${DPI} LD_LIBRARY_PATH="${QTPATH}lib:/lib" ./oobe-inkbox
+                QT_FONT_DPI=${DPI} LD_LIBRARY_PATH="${QTPATH}lib:/lib" DEBUG=${DEBUG} ./oobe-inkbox
         else
                 if [ "${1}" == "lockscreen" ]; then
-                        QT_FONT_DPI=${DPI} LD_LIBRARY_PATH="${QTPATH}lib:/lib" ./lockscreen
+                        QT_FONT_DPI=${DPI} LD_LIBRARY_PATH="${QTPATH}lib:/lib" DEBUG=${DEBUG} ./lockscreen
                 else
 			if [ "${FIRST_LAUNCH_SINCE_BOOT}" == "true" ]; then
 				echo "false" > /tmp/first_launch_since_boot
 				if [ "${LOCKSCREEN}" == "true" ]; then
-					INITIAL_LAUNCH=1 QT_FONT_DPI=${DPI} LD_LIBRARY_PATH="${QTPATH}lib:/lib" ./lockscreen
+					INITIAL_LAUNCH=1 QT_FONT_DPI=${DPI} LD_LIBRARY_PATH="${QTPATH}lib:/lib" DEBUG=${DEBUG} ./lockscreen
 				else
 					QT_FONT_DPI=${DPI} LD_LIBRARY_PATH="${QTPATH}lib:/lib" DEBUG=${DEBUG} ./inkbox
 				fi
@@ -109,15 +109,15 @@ if [ "${DPI}" != "false" ]; then
         fi
 else
         if [ "${FIRST_BOOT}" == "true" ]; then
-                QT_FONT_DPI=0 LD_LIBRARY_PATH="${QTPATH}lib:/lib" ./oobe-inkbox
+                QT_FONT_DPI=0 LD_LIBRARY_PATH="${QTPATH}lib:/lib" DEBUG=${DEBUG} ./oobe-inkbox
         else
                 if [ "${1}" == "lockscreen" ]; then
-                        QT_FONT_DPI=0 LD_LIBRARY_PATH="${QTPATH}lib:/lib" ./lockscreen
+                        QT_FONT_DPI=0 LD_LIBRARY_PATH="${QTPATH}lib:/lib" DEBUG=${DEBUG} ./lockscreen
                 else
 			if [ "${FIRST_LAUNCH_SINCE_BOOT}" == "true" ]; then
 				echo "false" > /tmp/first_launch_since_boot
 				if [ "${LOCKSCREEN}" == "true" ]; then
-					INITIAL_LAUNCH=1 QT_FONT_DPI=0 LD_LIBRARY_PATH="${QTPATH}lib:/lib" ./lockscreen
+					INITIAL_LAUNCH=1 QT_FONT_DPI=0 LD_LIBRARY_PATH="${QTPATH}lib:/lib" DEBUG=${DEBUG} ./lockscreen
 				else
 					QT_FONT_DPI=0 LD_LIBRARY_PATH="${QTPATH}lib:/lib" DEBUG=${DEBUG} ./inkbox
 				fi
