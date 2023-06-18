@@ -10,6 +10,7 @@ calculate() {
 cd "$(dirname ""${0}"")"
 
 #### EPUB ####
+pre_epubtool_epoch="$(date +%s)"
 json=$(EXTRACT_COVER=1 LD_LIBRARY_PATH='/lib:system/lib' system/bin/epubtool "${@}")
 
 # Evaluate constants for screen-size-based icon scaling
@@ -25,7 +26,10 @@ coverSize="$(calculate ${viewWidth}/${icon_width_divider})!x$(calculate ${viewHe
 cd /mnt/onboard/onboard/.thumbnails
 for cover in *; do
 	if [ "${cover}" != "*" ]; then
-		chroot /external_root /usr/bin/convert "/data/onboard/.thumbnails/${cover}" -resize "${coverSize}" "/data/onboard/.thumbnails/${cover}"
+		cover_epoch="$(busybox-initrd stat -c '%Y' ""${cover}"")"
+		if [ ${cover_epoch} -gt ${pre_epubtool_epoch} ]; then
+			chroot /external_root /usr/bin/convert "/data/onboard/.thumbnails/${cover}" -resize "${coverSize}" "/data/onboard/.thumbnails/${cover}"
+		fi
 	fi
 done
 cd - &>/dev/null
