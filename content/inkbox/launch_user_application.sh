@@ -18,7 +18,7 @@ application="${2}"
 
 # Launching user application
 # LD_LIBRARY_PATH is ignored by BusyBox here
-env DEVICE="$(cat /opt/inkbox_device)" DEVICE_CODENAME="$(/bin/kobo_config.sh)" LD_LIBRARY_PATH="/lib:system/lib" PATH="/system-bin:/app-bin" QT_FONT_DPI=${QT_FONT_DPI} system/bin/unshare -p -P "${proc_mountpoint}" -- system/lib/ld-musl-armhf.so.1 system/bin/chroot --userspec=user:user "${chroot_directory}" "${application}"
+env HOME="/app-data" DEVICE="$(cat /opt/inkbox_device)" DEVICE_CODENAME="$(/bin/kobo_config.sh)" LD_LIBRARY_PATH="/lib:system/lib" PATH="/system-bin:/app-bin" QT_FONT_DPI=${QT_FONT_DPI} system/bin/unshare -p -P "${proc_mountpoint}" -- system/lib/ld-musl-armhf.so.1 system/bin/chroot --userspec=user:user "${chroot_directory}" "${application}"
 
 # Relaunching InkBox binary
 LD_LIBRARY_PATH='/mnt/onboard/.adds/qt-linux-5.15.2-kobo/lib' QT_FONT_DPI=${QT_FONT_DPI} /mnt/onboard/.adds/inkbox/inkbox
