@@ -63,10 +63,12 @@ mkdir -p .config/23-updates
 mkdir -p .config/e-2-audio
 
 rm /var/run/brightness 2>/dev/null
-if [ "${DEVICE}" != "n236" ] && [ "${DEVICE}" != "n437" ]; then
-	ln -s /sys/class/backlight/mxc_msp430.0/brightness /var/run/brightness 2>/dev/null
-else
+if [ "${DEVICE}" == "n236" ] || [ "${DEVICE}" == "n437" ]; then
 	ln -s /sys/class/backlight/mxc_msp430_fl.0/brightness /var/run/brightness 2>/dev/null
+elif [ "${DEVICE}" == "n249" ]; then
+	ln -s /sys/class/backlight/backlight_cold/brightness /var/run/brightness 2>/dev/null
+else
+	ln -s /sys/class/backlight/mxc_msp430.0/brightness /var/run/brightness 2>/dev/null
 fi
 
 ADDSPATH="/mnt/onboard/.adds/"
@@ -79,7 +81,7 @@ if [ "${DPI}" != "false" ]; then
 			echo "160" > .config/09-dpi/config
 		elif [ "${DEVICE}" == "n613" ] || [ "${DEVICE}" == "n236" ]; then
 			echo "195" > .config/09-dpi/config
-		elif [ "${DEVICE}" == "n437" ]; then
+		elif [ "${DEVICE}" == "n437" ] || [ "${DEVICE}" == "n249" ]; then
 			echo "275" > .config/09-dpi/config
 		elif [ "${DEVICE}" == "n306" ]; then
 			echo "212" > .config/09-dpi/config
