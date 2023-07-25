@@ -63,10 +63,12 @@ mkdir -p .config/23-updates
 mkdir -p .config/e-2-audio
 
 rm /var/run/brightness 2>/dev/null
+rm /var/run/brightness_write 2>/dev/null
 if [ "${DEVICE}" == "n236" ] || [ "${DEVICE}" == "n437" ]; then
 	ln -s /sys/class/backlight/mxc_msp430_fl.0/brightness /var/run/brightness 2>/dev/null
 elif [ "${DEVICE}" == "n249" ]; then
 	ln -s /sys/class/backlight/backlight_cold/actual_brightness /var/run/brightness 2>/dev/null
+	ln -s /sys/class/backlight/backlight_cold/brightness /var/run/brightness_write 2>/dev/null
 else
 	ln -s /sys/class/backlight/mxc_msp430.0/brightness /var/run/brightness 2>/dev/null
 fi
