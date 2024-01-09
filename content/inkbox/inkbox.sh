@@ -60,6 +60,7 @@ mkdir -p .config/20-sleep_daemon
 mkdir -p .config/21-local_library
 mkdir -p .config/22-usb
 mkdir -p .config/23-updates
+mkdir -p .config/24-telemetry
 mkdir -p .config/e-2-audio
 
 rm /var/run/brightness 2>/dev/null
