@@ -7,6 +7,7 @@ cd /mnt/onboard/.adds/inkbox
 DPI=$(cat .config/09-dpi/config 2>/dev/null)
 GENUINE_OS=$(cat /opt/inkbox_genuine 2>/dev/null)
 DEVICE=$(cat /opt/inkbox_device 2>/dev/null)
+REAL_DEVICE=$(cat /external_root/opt/inkbox_device 2>/dev/null)
 FIRST_LAUNCH_SINCE_BOOT=$(cat /tmp/first_launch_since_boot 2>/dev/null)
 LOCKSCREEN=$(cat .config/12-lockscreen/config 2>/dev/null)
 
@@ -65,11 +66,13 @@ mkdir -p .config/e-2-audio
 
 rm /var/run/brightness 2>/dev/null
 rm /var/run/brightness_write 2>/dev/null
-if [ "${DEVICE}" == "n236" ] || [ "${DEVICE}" == "n437" ]; then
+if [ "${REAL_DEVICE}" == "n236" ] || [ "${REAL_DEVICE}" == "n437" ]; then
 	ln -s /sys/class/backlight/mxc_msp430_fl.0/brightness /var/run/brightness 2>/dev/null
-elif [ "${DEVICE}" == "n249" ]; then
+elif [ "${REAL_DEVICE}" == "n249" ]; then
 	ln -s /sys/class/backlight/backlight_cold/actual_brightness /var/run/brightness 2>/dev/null
 	ln -s /sys/class/backlight/backlight_cold/brightness /var/run/brightness_write 2>/dev/null
+elif [ "${REAL_DEVICE}" == "n418" ]; then
+	ln -s /sys/class/leds/aw99703-bl_FL2/brightness /var/run/brightness 2>/dev/null
 else
 	ln -s /sys/class/backlight/mxc_msp430.0/brightness /var/run/brightness 2>/dev/null
 fi
