@@ -2,6 +2,7 @@
 
 # Fossil
 killall -q nickel sickel hindenburg 2>/dev/null
+kill -9 $(pidof koreader.sh) 2>/dev/null
 cd /mnt/onboard/.adds/inkbox
 
 DPI=$(cat .config/09-dpi/config 2>/dev/null)

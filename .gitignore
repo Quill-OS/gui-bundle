@@ -1,6 +1,8 @@
 content/inkbox/inkbox-bin
 content/inkbox/lockscreen-bin
 content/inkbox/oobe-inkbox-bin
+content/koreader.zip
+content/koreader/
 out/
 build/
 *.pem

@@ -20,6 +20,13 @@ cp "${3}/build_inkbox/inkbox" "./inkbox-bin"
 cp "${3}/build_oobe-inkbox/oobe-inkbox" "./oobe-inkbox-bin"
 cp "${3}/build_lockscreen/lockscreen" "./lockscreen-bin"
 popd
+# Downloading and extracting KOReader package
+if [ ! -d "content/koreader" ]; then
+	pushd "content"
+	wget "https://github.com/koreader/koreader/releases/download/v2024.11/koreader-kobo-v2024.11.zip" -O koreader.zip
+	unzip koreader.zip -x koreader.png
+	popd
+fi
 
 # Squashing packages
 rm -rf "out/"
@@ -29,6 +36,7 @@ cp "${GITDIR}/content/license" "./license"
 cp "${GITDIR}/content/changelog" "./changelog"
 mksquashfs "${GITDIR}/content/inkbox" "./inkbox.isa" "${MKSQUASHFS_ARGS[@]}" -all-root
 mksquashfs "${GITDIR}/content/qt" "./qt.isa" "${MKSQUASHFS_ARGS[@]}" -all-root
+mksquashfs "${GITDIR}/content/koreader" "./koreader.isa" "${MKSQUASHFS_ARGS[@]}" -all-root
 for f in *.isa; do
 	if [ "${f}" != "*" ]; then
 		openssl dgst -sha256 -sign "${1}" -out "${f}.dgst" "${f}"
