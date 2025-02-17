@@ -62,6 +62,7 @@ mkdir -p .config/21-local_library
 mkdir -p .config/22-usb
 mkdir -p .config/23-updates
 mkdir -p .config/24-telemetry
+mkdir -p .config/25-reader_engine
 mkdir -p .config/e-2-audio
 
 rm /var/run/brightness 2>/dev/null
