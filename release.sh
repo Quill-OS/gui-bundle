@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+KOREADER_VERSION="2024.11"
+
 if [ "$NO_COMPRESSION" = "true" ]; then
 	echo "Not using SquashFS compression"
 	MKSQUASHFS_ARGS=('-b' '1048576' '-always-use-fragments' '-noI' '-noD' '-noF' '-noX')
@@ -23,7 +25,11 @@ popd
 # Downloading and extracting KOReader package
 if [ ! -d "content/koreader" ]; then
 	pushd "content"
-	wget "https://github.com/koreader/koreader/releases/download/v2024.11/koreader-kobo-v2024.11.zip" -O koreader.zip
+	if grep -q "kt/private.pem" <<< "${1}"; then
+		wget "https://github.com/koreader/koreader/releases/download/v${KOREADER_VERSION}/koreader-kindle-v${KOREADER_VERSION}.zip" -O koreader.zip
+	else
+		wget "https://github.com/koreader/koreader/releases/download/v${KOREADER_VERSION}/koreader-kobo-v${KOREADER_VERSION}.zip" -O koreader.zip
+	fi
 	unzip koreader.zip -x koreader.png
 	popd
 fi
