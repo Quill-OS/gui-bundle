@@ -5,10 +5,10 @@ KOREADER_VERSION="2024.11"
 if [ "$NO_COMPRESSION" == "true" ]; then
 	echo "Not using SquashFS compression"
 	MKSQUASHFS_ARGS=('-b' '1048576' '-always-use-fragments' '-noI' '-noD' '-noF' '-noX')
-elif [ "${GZIP_COMPRESSION}" == "true" ]; then
-	MKSQUASHFS_ARGS=('-b' '1048576' '-always-use-fragments')
-else
+elif [ "${XZ_COMPRESSION}" == "true" ]; then
 	MKSQUASHFS_ARGS=('-b' '1048576' '-comp' 'xz' '-Xdict-size' '100%' '-always-use-fragments')
+else
+	MKSQUASHFS_ARGS=('-b' '1048576' '-always-use-fragments')
 fi
 
 [ -z "${GITDIR}" ] && echo "Please provide the GITDIR environment variable." && exit 1
