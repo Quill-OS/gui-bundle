@@ -2,9 +2,11 @@
 
 KOREADER_VERSION="2024.11"
 
-if [ "$NO_COMPRESSION" = "true" ]; then
+if [ "$NO_COMPRESSION" == "true" ]; then
 	echo "Not using SquashFS compression"
 	MKSQUASHFS_ARGS=('-b' '1048576' '-always-use-fragments' '-noI' '-noD' '-noF' '-noX')
+elif [ "${GZIP_COMPRESSION}" == "true" ]; then
+	MKSQUASHFS_ARGS=('-b' '1048576' '-always-use-fragments')
 else
 	MKSQUASHFS_ARGS=('-b' '1048576' '-comp' 'xz' '-Xdict-size' '100%' '-always-use-fragments')
 fi
@@ -30,7 +32,10 @@ if [ ! -d "content/koreader" ]; then
 	else
 		wget "https://github.com/koreader/koreader/releases/download/v${KOREADER_VERSION}/koreader-kobo-v${KOREADER_VERSION}.zip" -O koreader.zip
 	fi
-	unzip koreader.zip -x koreader.png
+	unzip koreader.zip -x koreader.png && rm koreader.zip
+	mkdir -p koreader/data/dict && pushd koreader/data/dict
+	wget http://build.koreader.rocks/download/dict/gcide.tar.gz && tar -xvf gcide.tar.gz && mv gcide "GNU Collaborative International Dictionary of English" && rm gcide.tar.gz
+	popd
 	popd
 fi
 
