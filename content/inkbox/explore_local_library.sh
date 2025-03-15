@@ -1,4 +1,4 @@
-#!/bin/busybox-initrd sh
+#!/bin/busybox sh
 
 DEVICE="$(cat /opt/inkbox_device)"
 
@@ -26,7 +26,7 @@ coverSize="$(calculate ${viewWidth}/${icon_width_divider})!x$(calculate ${viewHe
 cd /mnt/onboard/onboard/.thumbnails
 for cover in *; do
 	if [ "${cover}" != "*" ]; then
-		cover_epoch="$(busybox-initrd stat -c '%Y' ""${cover}"")"
+		cover_epoch="$(busybox stat -c '%Y' ""${cover}"")"
 		if [ ${cover_epoch} -ge ${pre_epubtool_epoch} ]; then
 			chroot /external_root /usr/bin/convert "/data/onboard/.thumbnails/${cover}" -resize "${coverSize}" "/data/onboard/.thumbnails/${cover}"
 		fi

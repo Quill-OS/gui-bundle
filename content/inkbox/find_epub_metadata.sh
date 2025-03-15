@@ -1,6 +1,6 @@
 #!/bin/sh
 
-RUNTIME="busybox-initrd"
+RUNTIME="busybox"
 EXITCODE=0
 
 if [ -z "${1}" ]; then
