@@ -40,7 +40,7 @@ book_id=$((last_book_id+1))
 
 IFS=$'\n'; set -f
 #### TXT ####
-for txt in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.thumbnails" \) -prune -o -name "*.txt" -or -name "*.TXT"); do
+for txt in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.flashexam" -o -path "/mnt/onboard/onboard/.thumbnails" \) -prune -o -name "*.txt" -or -name "*.TXT"); do
 	[ -d "${txt}" ] && continue
 	if [ ${book_id} == 1 ]; then
 		char="{"
@@ -52,7 +52,7 @@ for txt in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -
 done
 
 #### PDF ####
-for pdf in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.thumbnails" \) -prune -o -name "*.pdf" -or -name "*.PDF"); do
+for pdf in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.flashexam" -o -path "/mnt/onboard/onboard/.thumbnails" \) -prune -o -name "*.pdf" -or -name "*.PDF"); do
 	[ -d "${pdf}" ] && continue
 	pdf_cksum="$(sha256sum ""${pdf}"" | awk '{ print $1 }')"
 	cover_raw_mutool="${pdf_cksum}"
@@ -75,7 +75,7 @@ for pdf in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -
 done
 
 #### Pictures ####
-for picture in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.thumbnails" -o -path "/mnt/onboard/onboard/.screensaver" \) -prune -o -name "*.png" -or -name "*.PNG" -or -name "*.jpg" -or -name "*.JPG" -or -name "*.jpeg" -or -name "*.JPEG" -or -name "*.bmp" -or -name "*.BMP" -or -name "*.tif" -or -name "*.TIF" -or -name "*.tiff" -or -name "*.TIFF"); do
+for picture in $(find /mnt/onboard/onboard \( -path "/mnt/onboard/onboard/.inkbox" -o -path "/mnt/onboard/onboard/.apps" -o -path "/mnt/onboard/onboard/.flashexam" -o -path "/mnt/onboard/onboard/.thumbnails" -o -path "/mnt/onboard/onboard/.screensaver" \) -prune -o -name "*.png" -or -name "*.PNG" -or -name "*.jpg" -or -name "*.JPG" -or -name "*.jpeg" -or -name "*.JPEG" -or -name "*.bmp" -or -name "*.BMP" -or -name "*.tif" -or -name "*.TIF" -or -name "*.tiff" -or -name "*.TIFF"); do
 	[ -d "${picture}" ] && continue
 	cover="$(sha256sum ""${picture}"" | awk '{ print $1 }')"
 	[ ! -f "/mnt/onboard/onboard/.thumbnails/${cover}" ] && chroot /external_root /usr/bin/convert "$(echo "${picture}" | sed 's/\/mnt\/onboard\/onboard/\/data\/onboard/g')" -resize "${coverSize}" "/data/onboard/.thumbnails/${cover}"
