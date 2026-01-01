@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-KOREADER_VERSION="2024.11"
+KOREADER_VERSION="2025.10"
 
 if [ "${NO_COMPRESSION}" == "true" ]; then
 	echo "Not using SquashFS compression"
