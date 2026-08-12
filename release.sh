@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-KOREADER_VERSION="2025.10"
+KOREADER_VERSION="2026.07.1"
 
 if [ "${NO_COMPRESSION}" == "true" ]; then
 	echo "Not using SquashFS compression"
@@ -11,12 +11,11 @@ else
 	MKSQUASHFS_ARGS=('-b' '1048576' '-comp' 'xz' '-Xdict-size' '100%' '-always-use-fragments')
 fi
 
-[ -z "${GITDIR}" ] && echo "Please provide the GITDIR environment variable." && exit 1
+cd "$(dirname ""${0}"")"
+GITDIR="${PWD}"
 [ -z "${1}" ] && echo "Please provide the 'signature key' argument." && exit 1
 [ -z "${2}" ] && echo "Please provide the 'version' argument." && exit 1
 [ -z "${3}" ] && echo "Please provide the 'binaries build folders location' argument." && exit 1
-
-cd "${GITDIR}"
 
 # Copying compiled binaries
 pushd "content/inkbox"
